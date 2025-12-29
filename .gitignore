@@ -46,3 +46,11 @@ Thumbs.db
 *.elf
 *.bin
 *.map
+
+# PlatformIO placeholder README files
+include/README
+lib/README
+test/README
+
+# Local documentation (not needed on GitHub)
+GITHUB_SETUP.md

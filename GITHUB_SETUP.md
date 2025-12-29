@@ -69,7 +69,7 @@ After creating the repository, GitHub will show you commands. Use these:
 
 ```powershell
 # Add the remote repository (replace YOUR_USERNAME with your GitHub username)
-git remote add origin https://github.com/YOUR_USERNAME/WaterLevelProject.git
+git remote add origin https://github.com/hamzakaracaa/WaterLevelProject.git
 
 # Rename the default branch to main (if needed)
 git branch -M main
