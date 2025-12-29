@@ -1,34 +1,32 @@
 #include <Arduino.h>
 
-/*
- * SU SEVİYE SENSÖRÜ - PlatformIO Kodu
- * Donanım Hack: 3.3V pini yerine D32'yi güç kaynağı yapıyoruz.
- */
+// Water level sensor - PlatformIO code
+// Hardware hack: Use D32 pin as power source instead of 3.3V pin
 
-#define SENSOR_POWER_PIN  32  // Kırmızı Kablo (Güç)
-#define SENSOR_DATA_PIN   34  // Sarı/Turuncu Kablo (Sinyal)
+#define SENSOR_POWER_PIN  32  // Power pin (red wire)
+#define SENSOR_DATA_PIN   34  // Data pin (yellow/orange wire)
 
 void setup() {
-  // 1. Seri haberleşmeyi başlat
+  // Start serial communication
   Serial.begin(115200);
 
-  // 2. D32 Pinini "Güç Kaynağı" yap
+  // Set D32 as power source
   pinMode(SENSOR_POWER_PIN, OUTPUT);
-  digitalWrite(SENSOR_POWER_PIN, HIGH); // Elektriği ver
+  digitalWrite(SENSOR_POWER_PIN, HIGH); // Enable power
   
-  // 3. Sensör okuma pini
+  // Sensor reading pin
   pinMode(SENSOR_DATA_PIN, INPUT);
 
   Serial.println("PlatformIO: Sistem Baslatildi.");
 }
 
 void loop() {
-  // Sensörden veriyi oku
+  // Read sensor data
   int suSeviyesi = analogRead(SENSOR_DATA_PIN);
 
-  // Ekrana yazdır
+  // Print to serial
   Serial.print("Su Seviyesi: ");
   Serial.println(suSeviyesi);
 
-  delay(100); // Çok hızlı akmasın
+  delay(100); // Delay to prevent overflow
 }
