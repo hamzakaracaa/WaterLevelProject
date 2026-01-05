@@ -22,11 +22,15 @@ A professional water level monitoring system for ESP32 with a modern Python GUI 
 ## ✨ Features
 
 - **Real-time Water Level Monitoring**: Continuous monitoring of water tank levels via ESP32
+- **WiFi Connectivity**: Wireless data transmission to web dashboard (no USB cable required!)
+- **Web Dashboard**: Modern, responsive web-based dashboard accessible from any device on your network
+- **Dual Interface**: Choose between local Python GUI or web dashboard
 - **Modern GUI Interface**: Beautiful, responsive Tkinter-based graphical user interface
 - **Data Filtering**: Moving average filter to reduce sensor noise and provide stable readings
 - **Calibration System**: Easy-to-use calibration buttons for setting min/max water levels
 - **Data Logging**: CSV export functionality for data analysis and record keeping
 - **Visual Feedback**: Animated water tank visualization with color-coded status indicators
+- **Historical Charts**: Real-time charts showing water level trends over time
 - **Error Handling**: Robust error handling for serial communication and file operations
 
 ## 🔧 Hardware Requirements
@@ -106,7 +110,29 @@ BAUD_RATE = 115200
 
 ## 🚀 Usage
 
-### Starting the Application
+### Option 1: WiFi Dashboard (Recommended)
+
+1. **Configure WiFi** (see [WIFI_SETUP.md](WIFI_SETUP.md) for detailed instructions):
+   - Edit `src/main.cpp` and update WiFi credentials
+   - Update server URL with your computer's IP address
+
+2. **Start the Dashboard Server**:
+   ```bash
+   python src/dashboard_server.py
+   ```
+
+3. **Access the Dashboard**:
+   - Open browser: `http://localhost:5000` (on your computer)
+   - Or `http://YOUR_IP:5000` (from any device on the same network)
+
+4. **Upload Firmware to ESP32**:
+   ```bash
+   pio run --target upload
+   ```
+
+5. **Monitor**: The dashboard will automatically receive and display data from ESP32
+
+### Option 2: Local Python GUI
 
 ```bash
 python src/main.py
@@ -137,10 +163,13 @@ python src/main.py
 ```
 WaterLevelProject/
 ├── src/
-│   ├── main.cpp          # ESP32 firmware (Arduino)
-│   └── main.py           # Python GUI application
+│   ├── main.cpp          # ESP32 firmware (Arduino) with WiFi support
+│   ├── main.py           # Python GUI application (local interface)
+│   └── dashboard_server.py  # Flask web server for WiFi dashboard
 ├── platformio.ini        # PlatformIO configuration
 ├── requirements.txt      # Python dependencies
+├── wifi_config.h         # WiFi configuration template
+├── WIFI_SETUP.md         # Detailed WiFi setup guide
 ├── README.md            # This file
 ├── .gitignore           # Git ignore rules
 └── water_icon.ico       # Application icon
@@ -148,7 +177,18 @@ WaterLevelProject/
 
 ## ⚙️ Configuration
 
-### ESP32 Configuration
+### ESP32 WiFi Configuration
+
+Edit `src/main.cpp`:
+- `ssid`: Your WiFi network name (SSID)
+- `password`: Your WiFi password
+- `serverURL`: Your computer's IP address with port 5000
+  - Example: `"http://192.168.1.100:5000/api/data"`
+  - Find your IP: Windows: `ipconfig`, Linux/Mac: `ifconfig`
+
+See [WIFI_SETUP.md](WIFI_SETUP.md) for detailed WiFi setup instructions.
+
+### ESP32 Hardware Configuration
 
 Edit `platformio.ini` to change:
 - Board type
@@ -157,11 +197,16 @@ Edit `platformio.ini` to change:
 
 ### Python Application Configuration
 
-Edit `src/main.py`:
+**For Local GUI (`src/main.py`):**
 - `SERIAL_PORT`: Serial port name
 - `BAUD_RATE`: Communication speed (default: 115200)
 - `calib_min`/`calib_max`: Default calibration values
 - `data_buffer.maxlen`: Filter buffer size (default: 20)
+
+**For Web Dashboard (`src/dashboard_server.py`):**
+- Server runs on `0.0.0.0:5000` by default
+- Change port in `app.run()` if needed
+- Calibration can be adjusted via dashboard interface
 
 ## 🔍 Troubleshooting
 
