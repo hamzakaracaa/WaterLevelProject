@@ -54,3 +54,33 @@ test/README
 
 # Local documentation (not needed on GitHub)
 GITHUB_SETUP.md
+
+# Configuration files with sensitive data
+wifi_config.h
+*.env
+.env
+config.ini
+secrets.h
+
+# Compiled files
+*.o
+*.a
+*.dylib
+*.dll
+
+# Python cache and virtual environments
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Flask instance folder
+instance/
+
+# IDE specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
